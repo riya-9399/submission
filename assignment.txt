@@ -1,0 +1,107 @@
+Q.1 mysql> SHOW COLUMNS FROM salespeople;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| SNUM  | int(11)     | YES  |     | NULL    |       |
+| SNAME | varchar(20) | YES  |     | NULL    |       |
+| CITY  | varchar(20) | YES  |     | NULL    |       |
+| COMM  | int(11)     | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+Q.2 mysql> SELECT RATING FROM customers WHERE RATING ='100';
++--------+
+| RATING |
++--------+
+|    100 |
+|    100 |
+|    100 |
++--------+
+3 rows in set (0.04 sec)
+
+
+Q.4
+mysql> SELECT ONUM,AMT,ODATE,CNUM,SNUM FROM orders ORDER BY CNUM DESC;
++------+------+------------+------+------+
+| ONUM | AMT  | ODATE      | CNUM | SNUM |
++------+------+------------+------+------+
+| 3001 |   19 | 1990-03-10 | 2008 | 1007 |
+| 3006 | 1098 | 1990-03-10 | 2008 | 1007 |
+| 3002 | 1900 | 1990-03-10 | 2007 | 1004 |
+| 3008 | 4723 | 1990-05-10 | 2006 | 1001 |
+| 3011 | 9892 | 1990-06-10 | 2006 | 1001 |
+| 3007 |   76 | 1990-04-10 | 2004 | 1002 |
+| 3010 | 1310 | 1990-06-10 | 2004 | 1002 |
+| 3005 | 5160 | 1990-03-10 | 2003 | 1002 |
+| 3009 | 1713 | 1990-04-10 | 2002 | 1003 |
+| 3003 |  767 | 1990-03-10 | 2001 | 1001 |
++------+------+------------+------+------+
+10 rows in set (0.03 sec)
+
+
+
+Q.5
+
+mysql> SELECT orders.SNUM,orders.ONUM,salespeople.SNAME
+    -> FROM orders
+    -> INNER JOIN salespeople
+    -> ON orders.SNUM = salespeople.SNUM;
++------+------+---------+
+| SNUM | ONUM | SNAME   |
++------+------+---------+
+| 1007 | 3001 | Rifkin  |
+| 1001 | 3003 | Peel    |
+| 1004 | 3002 | Motika  |
+| 1002 | 3005 | Serres  |
+| 1007 | 3006 | Rifkin  |
+| 1003 | 3009 | AxelRod |
+| 1002 | 3007 | Serres  |
+| 1001 | 3008 | Peel    |
+| 1002 | 3010 | Serres  |
+| 1001 | 3011 | Peel    |
++------+------+---------+
+10 rows in set (0.02 sec)
+
+
+
+Q.6
+mysql> SELECT salespeople.SNAME,customers.CNAME
+    -> FROM salespeople
+    -> INNER JOIN customers
+    -> ON salespeople.SNAME = customers.CNAME;
+Empty set (0.00 sec)
+
+
+
+
+Q.7
+mysql> SELECT COUNT(CNUM),SNUM
+    -> FROM customers
+    -> GROUP BY SNUM
+    -> HAVING COUNT(CNUM)>1;
++-------------+------+
+| COUNT(CNUM) | SNUM |
++-------------+------+
+|           2 | 1001 |
+|           2 | 1002 |
++-------------+------+
+2 rows in set (0.00 sec)
+
+
+
+Q.8
+mysql> SELECT COUNT(ONUM),SNUM
+    -> FROM orders
+    -> GROUP BY SNUM
+    -> ORDER BY COUNT(ONUM) DESC;
++-------------+------+
+| COUNT(ONUM) | SNUM |
++-------------+------+
+|           3 | 1001 |
+|           3 | 1002 |
+|           2 | 1007 |
+|           1 | 1004 |
+|           1 | 1003 |
++-------------+------+
+5 rows in set (0.00 sec)
